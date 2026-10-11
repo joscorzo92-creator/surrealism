@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ampere | Patinetes eléctricos</title>
+<meta name="description" content="Patinetes eléctricos con autonomía, potencia, velocidad y peso en cada ficha. Compra directo en Amazon.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0A0A'/%3E%3Cpath d='M36 6 16 36h14l-4 22 22-32H34z' fill='%2300E676'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --green: #00E676;
+    --green-deep: #003d1f;
+    --black: #0A0A0A;
+    --ink: #0A0A0A;
+    --ink-soft: #46504a;
+    --paper: #F2F5F3;
+    --white: #ffffff;
+    --line: #dbe2dd;
+    --radius: 14px;
+    --pad: clamp(16px, 5vw, 40px);
+    --maxw: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { max-width: 100%; }
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+
+  /* Logo */
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.03em; color: var(--white); }
+  .logo svg { width: 28px; height: 28px; flex: none; }
+
+  /* Header */
+  .site-header { background: var(--black); position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #1c1c1c; }
+  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 16px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px; border-radius: 999px; border: 2px solid var(--green);
+    background: var(--green); color: var(--black);
+    font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .btn:hover { background: var(--black); color: var(--green); }
+  .btn.ghost { background: transparent; color: var(--white); border-color: #3a3a3a; }
+  .btn.ghost:hover { border-color: var(--green); color: var(--green); }
+  .btn.small { padding: 9px 18px; font-size: .95rem; }
+
+  /* Hero */
+  .hero { position: relative; background: var(--black); color: var(--white); overflow: hidden; isolation: isolate; }
+  .hero-bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(0, 70, 35, 0.18); }
+  .hero .wrap { padding-top: clamp(64px, 12vw, 140px); padding-bottom: clamp(72px, 13vw, 160px); }
+  .hero h1 {
+    margin: 0 0 18px; max-width: 14ch;
+    font-size: clamp(2.4rem, 8vw, 5rem); line-height: 1.02; letter-spacing: -0.04em; font-weight: 800;
+    text-shadow: 0 2px 24px rgba(0,0,0,.5);
+  }
+  .hero p { margin: 0 0 30px; max-width: 46ch; font-size: clamp(1.05rem, 2.4vw, 1.25rem); color: #e8efe9; text-shadow: 0 1px 14px rgba(0,0,0,.6); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* Products */
+  .section { padding: clamp(48px, 8vw, 88px) 0; }
+  .section-head { margin-bottom: 32px; max-width: 60ch; }
+  .section-head h2 { margin: 0 0 8px; font-size: clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing: -0.03em; line-height: 1.1; }
+  .section-head p { margin: 0; color: var(--ink-soft); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 22px; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .card-visual { position: relative; background: var(--black); aspect-ratio: 16 / 10; display: grid; place-items: center; overflow: hidden; }
+  .card-visual .halo { position: absolute; width: 56%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(0,230,118,.35), rgba(0,230,118,0) 68%); }
+  .card-visual svg.scooter { position: relative; width: 62%; color: var(--green); }
+  .card-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .card h3 { margin: 0; font-size: 1.2rem; letter-spacing: -0.02em; line-height: 1.25; }
+  .card .desc { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+  .specs { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+  .specs div { border-top: 1px solid var(--line); padding-top: 8px; }
+  .specs dt { font-size: .8rem; color: var(--ink-soft); }
+  .specs dd { margin: 0; font-weight: 700; font-size: 1.1rem; }
+  .card-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+  .price { font-weight: 700; }
+  .card .btn { width: 100%; }
+  .card .btn:hover { background: var(--black); color: var(--green); border-color: var(--black); }
+
+  /* Guide */
+  .guide { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 28px; }
+  .guide-grid h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .guide-grid p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+
+  /* Footer */
+  .site-footer { background: #0A0A0A; color: #e6ece8; padding: 48px 0 32px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 28px; }
+  .site-footer p { margin: 12px 0 0; color: #b9c4bd; font-size: .92rem; max-width: 44ch; }
+  .site-footer a { color: var(--green); }
+  .legal { margin-top: 32px; padding-top: 20px; border-top: 1px solid #222; font-size: .85rem; color: #9aa59e; }
+
+  /* Exit popup */
+  .modal { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.72); }
+  .modal.open { display: flex; }
+  .modal-box { position: relative; width: 100%; max-width: 440px; background: var(--black); color: var(--white); border: 1px solid #1f3a2b; border-radius: 18px; padding: 32px 24px 26px; }
+  .modal-box h2 { margin: 0 0 8px; font-size: 1.5rem; letter-spacing: -0.02em; line-height: 1.15; }
+  .modal-box p { margin: 0 0 18px; color: #c7d1ca; }
+  .modal-close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: #c7d1ca; font-size: 1.6rem; cursor: pointer; }
+  .modal-close:hover { color: var(--green); }
+  .modal-form { display: flex; flex-direction: column; gap: 10px; }
+  .modal-form input[type="email"] { width: 100%; padding: 13px 16px; border-radius: 999px; border: 2px solid #2a2a2a; background: #141414; color: var(--white); font: inherit; }
+  .modal-form input[type="email"]:focus { border-color: var(--green); outline: none; }
+  .modal-msg { min-height: 1.4em; margin: 10px 0 0; font-size: .92rem; color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- Icono de patinete reutilizable -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="scooter" viewBox="0 0 200 120">
+      <circle cx="38" cy="94" r="18" fill="none" stroke="currentColor" stroke-width="6"/>
+      <circle cx="166" cy="94" r="18" fill="none" stroke="currentColor" stroke-width="6"/>
+      <path d="M166 94 L148 18 H126" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="44" y="82" width="104" height="9" rx="4.5" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="ampere, inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 4 14 36h15l-4 24 25-34H35z" fill="#00E676"/></svg>
+      ampere
+    </a>
+    <a class="btn small" href="#modelos">Ver modelos</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <!-- Escena surrealista: patinete flotando sobre su propio reflejo en el cielo -->
+    <svg class="hero-bg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#050505"/>
+          <stop offset="0.55" stop-color="#0b1a12"/>
+          <stop offset="1" stop-color="#0A0A0A"/>
+        </linearGradient>
+        <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#00E676" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#00E676" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="700" fill="url(#sky)"/>
+      <circle cx="880" cy="330" r="300" fill="url(#glow)"/>
+      <circle cx="880" cy="330" r="150" fill="none" stroke="#00E676" stroke-width="3" opacity="0.8"/>
+      <circle cx="880" cy="330" r="210" fill="none" stroke="#00E676" stroke-width="1.5" opacity="0.4"/>
+      <line x1="0" y1="470" x2="1200" y2="470" stroke="#00E676" stroke-width="2" opacity="0.55"/>
+      <g color="#00E676">
+        <use href="#scooter" x="700" y="330" width="360" height="216" style="color:#00E676"/>
+      </g>
+      <g transform="translate(0,470) scale(1,-1) translate(0,-470)" opacity="0.22">
+        <use href="#scooter" x="700" y="330" width="360" height="216" style="color:#00E676"/>
+      </g>
+    </svg>
+    <div class="wrap">
+      <h1>Patinetes eléctricos con las cifras a la vista</h1>
+      <p>Autonomía, potencia, velocidad máxima y peso de cada modelo en una sola ficha. Comparas los datos y compras directo en Amazon.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#modelos">Ver modelos</a>
+        <a class="btn ghost" href="#guia">Cómo leer una ficha</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="modelos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Modelos</h2>
+        <p>Cada tarjeta muestra los cuatro datos que más pesan en la compra de un patinete eléctrico.</p>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="section guide" id="guia">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Cómo leer una ficha</h2>
+      </div>
+      <div class="guide-grid">
+        <div><h3>Autonomía (km)</h3><p>Distancia con una carga completa. En uso real suele ser menor que la cifra del fabricante: con cuestas, viento o conductores pesados baja.</p></div>
+        <div><h3>Potencia (W)</h3><p>Fuerza del motor. A más vatios, mejor respuesta en subidas. Bajo 350 W cuesta en pendientes fuertes.</p></div>
+        <div><h3>Velocidad máxima (km/h)</h3><p>Tope que alcanza el motor. Revisa el límite legal de tu ciudad antes de comprar.</p></div>
+        <div><h3>Peso (kg)</h3><p>Importa si lo subes escaleras o lo llevas en transporte público. Hasta 15 kg se carga con una mano sin esfuerzo.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#top" aria-label="ampere, inicio">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 4 14 36h15l-4 24 25-34H35z" fill="#00E676"/></svg>
+          ampere
+        </a>
+        <p>Tienda de patinetes eléctricos con fichas técnicas claras. Las compras se completan en Amazon.</p>
+      </div>
+      <div>
+        <p style="margin-top:0"><a href="#modelos">Modelos</a><br><a href="#guia">Cómo leer una ficha</a></p>
+      </div>
+    </div>
+    <p class="legal">Como afiliado de Amazon, ampere recibe comisiones por compras que cumplen los requisitos. El precio que pagas no cambia. Los datos técnicos provienen de los fabricantes y pueden variar según la versión del producto.</p>
+  </div>
+</footer>
+
+<!-- Exit popup de suscriptores -->
+<div class="modal" id="exitModal" role="dialog" aria-modal="true" aria-labelledby="exitTitle">
+  <div class="modal-box">
+    <button class="modal-close" id="exitClose" aria-label="Cerrar">&times;</button>
+    <h2 id="exitTitle">Recibe los nuevos patinetes primero</h2>
+    <p>Un correo cuando agreguemos modelos o baje el precio de alguno. Sin spam.</p>
+    <form class="modal-form" id="exitForm" novalidate>
+      <label for="exitEmail" style="position:absolute;left:-9999px">Correo electrónico</label>
+      <input type="email" id="exitEmail" placeholder="tu@correo.com" autocomplete="email" required>
+      <button class="btn" type="submit">Suscribirme</button>
+    </form>
+    <p class="modal-msg" id="exitMsg" role="status"></p>
+  </div>
+</div>
+
+<script>
+  /* ============ CONFIGURACIÓN: edita solo esta parte ============ */
+  var AMAZON_DOMAIN = "www.amazon.com";   // ejemplo: www.amazon.es, www.amazon.com
+  var AFFILIATE_TAG = "TU-TAG-DE-AFILIADO"; // tu ID de Amazon Afiliados
+  var SUBSCRIBE_ENDPOINT = "";            // URL de tu servicio de correo (Formspree, Mailchimp, etc.)
+
+  /* ============ DATOS DE PRODUCTOS ============
+     Los datos de abajo son EJEMPLOS. Reemplaza cada bloque por un modelo real.
+     asin: código del producto en Amazon (aparece en su URL después de /dp/).
+     Si dejas asin vacío, el botón lleva a una búsqueda en Amazon con "search". */
+  var PRODUCTS = [
+    { id: 1, name: "Patinete urbano ligero", desc: "Para trayectos cortos y escaleras frecuentes.", range: 25, power: 350, speed: 25, weight: 12, asin: "", search: "patinete electrico ligero" },
+    { id: 2, name: "Patinete de autonomía larga", desc: "Para recorridos diarios sin cargar a mitad de semana.", range: 55, power: 500, speed: 25, weight: 17, asin: "", search: "patinete electrico larga autonomia" },
+    { id: 3, name: "Patinete plegable compacto", desc: "Cabe bajo el escritorio y en el maletero.", range: 30, power: 350, speed: 25, weight: 13, asin: "", search: "patinete electrico plegable" },
+    { id: 4, name: "Patinete para cuestas", desc: "Motor doble para pendientes marcadas.", range: 45, power: 800, speed: 35, weight: 24, asin: "", search: "patinete electrico doble motor" },
+    { id: 5, name: "Patinete de ruedas todoterreno", desc: "Neumáticos anchos para asfalto irregular.", range: 40, power: 600, speed: 30, weight: 21, asin: "", search: "patinete electrico todoterreno" },
+    { id: 6, name: "Patinete económico de entrada", desc: "Lo básico para empezar con poco gasto.", range: 20, power: 250, speed: 20, weight: 11, asin: "", search: "patinete electrico barato" }
+  ];
+
+  /* ============ RENDER DE TARJETAS ============ */
+  function amazonUrl(p) {
+    var base = "https://" + AMAZON_DOMAIN;
+    var tag = encodeURIComponent(AFFILIATE_TAG);
+    if (p.asin) return base + "/dp/" + encodeURIComponent(p.asin) + "?tag=" + tag;
+    return base + "/s?k=" + encodeURIComponent(p.search || p.name) + "&tag=" + tag;
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function cardHtml(p) {
+    var priceLine = (typeof p.price === "number")
+      ? '<div class="price">$' + p.price + '</div>'
+      : '<div class="price">Precio actualizado en Amazon</div>';
+    return '' +
+      '<article class="card">' +
+        '<div class="card-visual"><div class="halo"></div>' +
+          '<svg class="scooter" viewBox="0 0 200 120" aria-hidden="true"><use href="#scooter"/></svg>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<h3>' + esc(p.name) + '</h3>' +
+          '<p class="desc">' + esc(p.desc) + '</p>' +
+          '<dl class="specs">' +
+            '<div><dt>Autonomía</dt><dd>' + p.range + ' km</dd></div>' +
+            '<div><dt>Potencia</dt><dd>' + p.power + ' W</dd></div>' +
+            '<div><dt>Velocidad máx.</dt><dd>' + p.speed + ' km/h</dd></div>' +
+            '<div><dt>Peso</dt><dd>' + p.weight + ' kg</dd></div>' +
+          '</dl>' +
+          '<div class="card-foot">' + priceLine +
+            '<a class="btn" href="' + amazonUrl(p) + '" target="_blank" rel="noopener sponsored">Comprar en Amazon</a>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  }
+
+  document.getElementById("grid").innerHTML = PRODUCTS.map(cardHtml).join("");
+
+  /* ============ EXIT POPUP ============ */
+  var modal = document.getElementById("exitModal");
+  var shown = false;
+
+  function alreadySeen() {
+    try { return sessionStorage.getItem("ampere_exit_seen") === "1"; } catch (e) { return false; }
+  }
+  function markSeen() {
+    try { sessionStorage.setItem("ampere_exit_seen", "1"); } catch (e) {}
+  }
+  function openModal() {
+    if (shown || alreadySeen()) return;
+    shown = true; markSeen();
+    modal.classList.add("open");
+    document.getElementById("exitEmail").focus();
+  }
+  function closeModal() { modal.classList.remove("open"); }
+
+  document.addEventListener("mouseout", function (e) {
+    if (!e.relatedTarget && e.clientY <= 0) openModal();
+  });
+  if (window.matchMedia && window.matchMedia("(hover: none)").matches) {
+    setTimeout(openModal, 40000); // en móvil no hay "salida" del cursor: aparece a los 40 s
+  }
+  document.getElementById("exitClose").addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+
+  document.getElementById("exitForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = document.getElementById("exitEmail").value.trim();
+    var msg = document.getElementById("exitMsg");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msg.style.color = "#ff8a80";
+      msg.textContent = "Escribe un correo válido, por ejemplo nombre@correo.com.";
+      return;
+    }
+    msg.style.color = "#00E676";
+    if (SUBSCRIBE_ENDPOINT) {
+      fetch(SUBSCRIBE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email })
+      }).then(function () {
+        msg.textContent = "Listo. Quedaste suscrito.";
+      }).catch(function () {
+        msg.style.color = "#ff8a80";
+        msg.textContent = "No se pudo enviar. Inténtalo de nuevo en unos minutos.";
+      });
+    } else {
+      msg.textContent = "Listo. Quedaste suscrito.";
+    }
+  });
+</script>
+</body>
+</html>
